@@ -1,10 +1,9 @@
-scripts
-=======
+#scripts#
+
 
 Some useful tools
 
-mssh.rb
--------
+###mssh.rb###
 
 This tool can be used to find instances on AWS matching certain tags and finally ssh to all of them and execute commands.
 
