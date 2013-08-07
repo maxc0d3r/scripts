@@ -18,7 +18,7 @@ optparse = OptionParser.new do |opts|
   opts.on("-c", "--command COMMAND","Command to run on remote hosts") do |command|
     options[:command] = command
   end
-  opts.on("-f", "--filter FILTER","Filter") do |filter|
+  opts.on("-f", "--filter FILTER","Command separated filters") do |filter|
     options[:filter] = filter
   end
   opts.on("-h", "--help", "Display this screen") do
@@ -30,11 +30,15 @@ end
 optparse.parse!
 
 command = options[:command]
-filter_criteria = options[:filter].split(":")[0]
-filter_value = options[:filter].split(":")[1]
+filter_criterias = options[:filter]
+$filters=filter_criterias.split(',').inject(Hash.new{|h,k|h[k]=[]}) do |h,s|
+  v,k=s.split(':')
+  h["tag:#{v}"] << k
+  h
+end
 
-def get_servers(criteria,value)
-  servers = $conn.servers.all("tag:#{criteria}" => "#{value}")
+def get_servers()
+  servers = $conn.servers.all($filters)
   ipaddress = Array.new
   servers.each do |server|
     ipaddress << server.private_ip_address
@@ -43,7 +47,7 @@ def get_servers(criteria,value)
 end
 
 Net::SSH::Multi.start(:on_error => :ignore) do |ssh|
-  get_servers(filter_criteria,filter_value).each do |ip|
+  get_servers().each do |ip|
     ssh.use "#{ip}", :user => "#{@ssh_user}", :keys => ["#{@ssh_key}"]
   end
   
