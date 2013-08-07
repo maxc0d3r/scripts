@@ -1,0 +1,7 @@
+#!/usr/bin/ruby
+
+@aws_access_key_id = "<ENTER YOUR AWS ACCESS KEY HERE>"
+@aws_secret_access_key = "<ENTER YOUR AWS SECRET ACCESS KEY HERE>"
+@aws_region = "<ENTER YOUR AWS REGION HERE>"
+@ssh_key = "<ENTER PATH OF PRIVATE SSH KEY HERE>"
+@ssh_user = "<ENTER NAME OF USER WHICH YOU WISH TO CONNECT AS>"
