@@ -46,12 +46,19 @@ def get_servers()
   return ipaddress
 end
 
-Net::SSH::Multi.start(:on_error => :ignore) do |ssh|
+Net::SSH::Multi.start(:on_error => :ignore) do |session|
   get_servers().each do |ip|
-    ssh.use "#{ip}", :user => "#{@ssh_user}", :keys => ["#{@ssh_key}"]
+    session.use "#{ip}", :user => "#{@ssh_user}", :keys => ["#{@ssh_key}"]
   end
-  
-  ssh.exec "#{command}"
-  ssh.loop
+  session.open_channel do |ch|  
+    ch.request_pty do |c,success|
+      raise "Could not request pty" unless success
+      ch.exec "#{command}"
+      ch.on_data do |ch,data|
+        puts "[#{ch[:host]} :] #{data}"
+      end
+    end
+  end
+  session.loop
 end
 
