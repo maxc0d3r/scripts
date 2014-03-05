@@ -9,3 +9,6 @@ This tool can be used to find instances on AWS matching certain tags and finally
 
 Before executing mssh.rb please rename fog_config.rb.sample to fog_config.rb and fill in required details in the file.
 
+###AWS-Spreadsheet###
+
+Script to pull instance metadata from AWS and populate Google Spreadsheet
