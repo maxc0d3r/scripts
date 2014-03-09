@@ -3,7 +3,7 @@
 require 'fog'
 require 'optparse'
 require 'net/ssh/multi'
-require './fog_config.rb'
+require_relative 'config.rb'
 
 $conn = Fog::Compute.new(
           :provider => 'AWS',
@@ -18,7 +18,7 @@ optparse = OptionParser.new do |opts|
   opts.on("-c", "--command COMMAND","Command to run on remote hosts") do |command|
     options[:command] = command
   end
-  opts.on("-f", "--filter FILTER","Command separated filters") do |filter|
+  opts.on("-f", "--filter FILTER","Comma separated filters") do |filter|
     options[:filter] = filter
   end
   opts.on("-h", "--help", "Display this screen") do
@@ -36,6 +36,8 @@ $filters=filter_criterias.split(',').inject(Hash.new{|h,k|h[k]=[]}) do |h,s|
   h["tag:#{v}"] << k
   h
 end
+
+puts $filters
 
 def get_servers()
   servers = $conn.servers.all($filters)

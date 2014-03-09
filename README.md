@@ -3,12 +3,14 @@
 
 Some useful tools
 
-###mssh.rb###
+###mssh###
 
 This tool can be used to find instances on AWS matching certain tags and finally ssh to all of them and execute commands.
 
-Before executing mssh.rb please rename fog_config.rb.sample to fog_config.rb and fill in required details in the file.
+Before executing mssh.rb please fill in required details in config.rb.
 
 ###AWS-Spreadsheet###
 
-Script to pull instance metadata from AWS and populate Google Spreadsheet
+Script to pull instance metadata from AWS and populate Google Spreadsheet.
+
+Before executing the script please fill in required details in config.rb.
