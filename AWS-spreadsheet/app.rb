@@ -4,7 +4,7 @@ require 'bundler/setup'
 
 require 'google_drive'
 require 'fog'
-require './config.rb'
+require_relative 'config.rb'
 session = GoogleDrive.login(@username,@password)
 
 $state = { 0 => "unprovisioned", 1 => "running", 2 => "stopped", 3 => "terminated", 4 => "unreachable", 5 => "rebooting" }
