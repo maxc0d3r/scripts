@@ -1,4 +1,4 @@
-#scripts#
+#Scripts#
 
 
 Some useful tools
@@ -14,3 +14,7 @@ Before executing mssh.rb please fill in required details in config.rb.
 Script to pull instance metadata from AWS and populate Google Spreadsheet.
 
 Before executing the script please fill in required details in config.rb.
+
+###monitor-hadoop###
+
+Some scripts, plugins for monitoring hadoop
