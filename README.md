@@ -18,3 +18,11 @@ Before executing the script please fill in required details in config.rb.
 ###monitor-hadoop###
 
 Some scripts, plugins for monitoring hadoop
+
+###selenium-nagios###
+
+Script to run a selenium test and report error if any to nagios/zenoss
+
+Requires selenium-webdriver gem (sudo gem install selenium-webdriver)
+
+
