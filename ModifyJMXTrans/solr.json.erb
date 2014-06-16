@@ -1,0 +1,177 @@
+{
+    "servers" : [
+    {
+        "host" : "<%= @hostname %>",
+        "alias" : "<%= @hostname %>",
+        "port" : "3000",
+        "queries" : [
+        {
+            "obj" : "java.lang:type=Memory",
+            "resultAlias": "solr.heap",
+            "attr" : [ "HeapMemoryUsage", "NonHeapMemoryUsage" ],
+            "outputWriters" : [
+             {
+                 "@class" : "com.googlecode.jmxtrans.model.output.GangliaWriter",
+                 "settings" : {
+                     "groupName" : "Solr-JVM",
+                     "host" : "<%= @ganglia_server %>",
+                     "port" : "<%= @ganglia_port %>"
+                 }
+             }]
+        },
+        {
+            "obj" : "java.lang:name=CMS Old Gen,type=MemoryPool",
+            "resultAlias": "solr.cmsoldgen",
+            "attr" : [ "Usage" ],
+            "outputWriters" : [
+             {
+                 "@class" : "com.googlecode.jmxtrans.model.output.GangliaWriter",
+                 "settings" : {
+                     "groupName" : "Solr-JVM",
+                     "host" : "<%= @ganglia_server %>",
+                     "port" : "<%= @ganglia_port %>"
+                 }
+             }]
+        },
+        {
+            "obj" : "java.lang:type=GarbageCollector,name=*",
+            "resultAlias": "solr.gc",
+            "attr" : [ "CollectionCount", "CollectionTime" ], 
+            "outputWriters" : [
+             {
+                 "@class" : "com.googlecode.jmxtrans.model.output.GangliaWriter",
+                 "settings" : {
+                     "groupName" : "Solr-JVM",
+                     "host" : "<%= @ganglia_server %>",
+                     "port" : "<%= @ganglia_port %>"
+                 }
+             }]
+        },
+        {
+            "obj" : "java.lang:type=Threading",
+            "resultAlias": "solr.threads",
+            "attr" : [ "DaemonThreadCount", "PeakThreadCount", "ThreadCount", "TotalStartedThreadCount" ],
+            "outputWriters" : [
+             {
+                 "@class" : "com.googlecode.jmxtrans.model.output.GangliaWriter",
+                 "settings" : {
+                     "groupName" : "Solr-JVM",
+                     "host" : "<%= @ganglia_server %>",
+                     "port" : "<%= @ganglia_port %>"
+                 }
+             }]
+        },
+        {
+            "obj" : "solr/<%= @current_search %>:type=/select,id=org.apache.solr.handler.component.SearchHandler",
+            "resultAlias": "search.queryHandler_select_Stats",
+            "attr" : [ "requests","errors","avgRequestsPerSecond","avgTimePerRequest" ],
+            "outputWriters" : [
+            {
+                "@class" : "com.googlecode.jmxtrans.model.output.GangliaWriter",
+                "settings" : {
+                    "groupName" : "Search",
+                    "host" : "<%= @ganglia_server %>",
+                    "port" : "<%= @ganglia_port %>"
+                }
+            }]
+        },
+        {
+            "obj" : "solr/<%= @current_search %>:type=/update,id=org.apache.solr.handler.UpdateRequestHandler",
+            "resultAlias": "search.queryHandler_update_Stats",
+            "attr" : [ "requests","errors","avgRequestsPerSecond","avgTimePerRequest" ],
+            "outputWriters" : [
+            {
+                "@class" : "com.googlecode.jmxtrans.model.output.GangliaWriter",
+                "settings" : {
+                    "groupName" : "Search",
+                    "host" : "<%= @ganglia_server %>",
+                    "port" : "<%= @ganglia_port %>"
+                }
+            }]
+        },
+        {
+            "obj" : "solr/<%= @current_search %>:type=queryResultCache,id=org.apache.solr.search.LRUCache",
+            "resultAlias": "search.queryCache",
+            "attr" : [ "warmupTime","size","lookups","evictions","hits","hitratio","inserts","cumulative_lookups","cumulative_hits","cumulative_hits","cumulative_hitratio","cumulative_inserts","cumulative_evictions" ],
+            "outputWriters" : [
+            {
+                "@class" : "com.googlecode.jmxtrans.model.output.GangliaWriter",
+                "settings" : {
+                    "groupName" : "Search",
+                    "host" : "<%= @ganglia_server %>",
+                    "port" : "<%= @ganglia_port %>"
+                }
+            }]
+        },
+	{
+            "obj" : "solr/<%= @current_search %>:type=documentCache,id=org.apache.solr.search.LRUCache",
+            "resultAlias": "search.documentCache",
+            "attr" : [ "warmupTime","size","lookups","evictions","hits","hitratio","inserts","cumulative_lookups","cumulative_hits","cumulative_hits","cumulative_hitratio","cumulative_inserts","cumulative_evictions" ],
+            "outputWriters" : [
+            {
+                "@class" : "com.googlecode.jmxtrans.model.output.GangliaWriter",
+                "settings" : {
+                    "groupName" : "Search",
+                    "host" : "<%= @ganglia_server %>",
+                    "port" : "<%= @ganglia_port %>"
+                }
+            }]
+        },
+        {
+            "obj" : "solr/<%= @current_search %>:type=searcher,id=org.apache.solr.search.SolrIndexSearcher",
+           "resultAlias": "search.searcher",
+            "attr" : [ "maxDoc","numDocs","warmupTime" ],
+            "outputWriters" : [
+            {
+                "@class" : "com.googlecode.jmxtrans.model.output.GangliaWriter",
+                "settings" : {
+                    "groupName" : "Search",
+                    "host" : "<%= @ganglia_server %>",
+                    "port" : "<%= @ganglia_port %>"
+                }
+            }]
+        },
+        {
+            "obj" : "solr/<%= @current_meta %>:type=queryResultCache,id=org.apache.solr.search.LRUCache",
+            "resultAlias": "meta.queryCache",
+            "attr" : [ "warmupTime","size","lookups","evictions","hits","hitratio","inserts","cumulative_lookups","cumulative_hits","cumulative_hits","cumulative_hitratio","cumulative_inserts","cumulative_evictions" ],
+            "outputWriters" : [
+            {
+                "@class" : "com.googlecode.jmxtrans.model.output.GangliaWriter",
+                "settings" : {
+                    "groupName" : "Meta",
+                    "host" : "<%= @ganglia_server %>",
+                    "port" : "<%= @ganglia_port %>"
+                }
+            }]
+        },
+	{
+            "obj" : "solr/<%= @current_search %>:type=documentCache,id=org.apache.solr.search.LRUCache",
+            "resultAlias": "search.documentCache",
+            "attr" : [ "warmupTime","size","lookups","evictions","hits","hitratio","inserts","cumulative_lookups","cumulative_hits","cumulative_hits","cumulative_hitratio","cumulative_inserts","cumulative_evictions" ],
+            "outputWriters" : [
+            {
+                "@class" : "com.googlecode.jmxtrans.model.output.GangliaWriter",
+                "settings" : {
+                    "groupName" : "Search",
+                    "host" : "<%= @ganglia_server %>",
+                    "port" : "<%= @ganglia_port %>"
+                }
+            }]
+        },
+        {
+            "obj" : "solr/<%= @current_meta %>:type=searcher,id=org.apache.solr.search.SolrIndexSearcher",
+           "resultAlias": "meta.searcher",
+            "attr" : [ "maxDoc","numDocs","warmupTime" ],
+            "outputWriters" : [
+            {
+                "@class" : "com.googlecode.jmxtrans.model.output.GangliaWriter",
+                "settings" : {
+                    "groupName" : "Meta",
+                    "host" : "<%= @ganglia_server %>",
+                    "port" : "<%= @ganglia_port %>"
+                }
+            }]
+        }]
+    }]
+}
