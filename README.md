@@ -25,4 +25,4 @@ Script to run a selenium test and report error if any to nagios/zenoss
 
 Requires selenium-webdriver gem (sudo gem install selenium-webdriver)
 
-
+Test
